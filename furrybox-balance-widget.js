@@ -12,7 +12,7 @@
 // 点 + 新建小组件，名称随便起（例如 FurryBox 余额），脚本名称选 furrybox-balance-widget，保存后加到主屏幕即可。
 
 export default async function(ctx) {
-  const API = 'https://cdn.jsdelivr.net/gh/kikyou1w-lab/egern-config@main/furrybox-balance.json';
+  const API = 'https://raw.githubusercontent.com/kikyou1w-lab/egern-config/main/furrybox-balance.json';
   const refreshAfter = new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString();
   const WALLET_URL = 'https://my.furry.box/wallet';
 

@@ -4,7 +4,7 @@ author: "kikyou1w-lab"
 scriptings:
   - generic:
       name: "furrybox-balance-widget"
-      script_url: "https://cdn.jsdelivr.net/gh/kikyou1w-lab/egern-config@main/furrybox-balance-widget.js"
+      script_url: "https://raw.githubusercontent.com/kikyou1w-lab/egern-config/main/furrybox-balance-widget.js"
       timeout: 20
 widgets:
   - name: "furrybox-balance-widget"
