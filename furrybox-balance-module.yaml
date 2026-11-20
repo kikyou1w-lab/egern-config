@@ -1,0 +1,10 @@
+name: "FurryBox 余额小组件"
+description: "在主屏幕和锁屏显示 FurryBox 钱包余额，每天签到后自动更新"
+author: "kikyou1w-lab"
+scriptings:
+  - generic:
+      name: "furrybox-balance-widget"
+      script_url: "https://cdn.jsdelivr.net/gh/kikyou1w-lab/egern-config@main/furrybox-balance-widget.js"
+      timeout: 20
+widgets:
+  - name: "furrybox-balance-widget"
