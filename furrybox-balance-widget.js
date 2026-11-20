@@ -13,7 +13,7 @@
 
 export default async function(ctx) {
   const API = 'https://raw.githubusercontent.com/kikyou1w-lab/egern-config/main/furrybox-balance.json';
-  const refreshAfter = new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString();
+  const refreshAfter = new Date(Date.now() + 1 * 60 * 60 * 1000).toISOString();
   const WALLET_URL = 'https://my.furry.box/wallet';
 
   // 液态玻璃背景：SVG（渐变 + 高光 + 亮边），Egern 支持内联 SVG 作 backgroundImage
