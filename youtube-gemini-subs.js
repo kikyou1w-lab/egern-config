@@ -1,10 +1,12 @@
 // YouTube Gemini 中文字幕 (Egern / Surge)
 // 拦截油管字幕请求，把各语种字幕用 Gemini AI 翻成中文，只显示中文
-// API Key 已内置，装模块直接用；环境变量 ctx.env.API_KEY / 模块参数 / 已存 key 可覆盖内置 key；
+// API Key 从模块环境变量 ctx.env.API_KEY 读取（在 Egern 模块里填一次就行），
+// 再依次从模块参数 $argument 和 $persistentStore 兜底；
+// 注意：key 绝不能写进这个文件里——仓库是公开的，写进来会被谷歌检测到并删掉。
 // 没填 key 或翻译失败时原样放行，不影响字幕
 
-// 内置 key：装模块直接用
-var BUILTIN_API_KEY = "AQ.Ab8RN6LDkSzvPGOmg_W87GhyMX4_VrFMzl2C54MegYyGAC5c1A";
+// 内置 key 已清空：key 不要写进公开仓库，否则谷歌会删掉
+var BUILTIN_API_KEY = "";
 var API_KEY = (function () {
   try {
     if (typeof ctx !== "undefined" && ctx && ctx.env && ctx.env.API_KEY) {
