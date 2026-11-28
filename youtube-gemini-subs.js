@@ -1,9 +1,10 @@
 // YouTube Gemini 中文字幕 (Egern / Surge)
 // 拦截油管字幕请求，把各语种字幕用 Gemini AI 翻成中文，只显示中文
-// API Key 优先从模块环境变量 ctx.env.API_KEY 读取（Egern 模块页里填的），
-// 再依次从模块参数 $argument 和 $persistentStore 兜底；
+// API Key 已内置，装模块直接用；环境变量 ctx.env.API_KEY / 模块参数 / 已存 key 可覆盖内置 key；
 // 没填 key 或翻译失败时原样放行，不影响字幕
 
+// 内置 key：装模块直接用
+var BUILTIN_API_KEY = "AQ.Ab8RN6LDkSzvPGOmg_W87GhyMX4_VrFMzl2C54MegYyGAC5c1A";
 var API_KEY = (function () {
   try {
     if (typeof ctx !== "undefined" && ctx && ctx.env && ctx.env.API_KEY) {
@@ -13,13 +14,16 @@ var API_KEY = (function () {
   try {
     var arg = (typeof $argument !== "undefined" && $argument) ? $argument : "";
     var m = arg.match(/API_KEY=([^&]+)/);
-    if (m) return decodeURIComponent(m[1]).trim();
+    if (m) {
+      var v = decodeURIComponent(m[1]).trim();
+      if (v && v.indexOf("请粘贴") !== 0) return v;
+    }
   } catch (e) {}
   try {
     var stored = $persistentStore.read("yt-gemini-subs:API_KEY");
     if (stored) return String(stored).trim();
   } catch (e) {}
-  return "";
+  return BUILTIN_API_KEY;
 })();
 
 // 按顺序试：lite 最稳、免费额度最宽；3.8-flash 最强，忙时自动降级
