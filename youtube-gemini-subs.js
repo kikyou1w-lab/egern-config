@@ -1,13 +1,25 @@
 // YouTube Gemini 中文字幕 (Egern / Surge)
-// 拦截油管字幕请求，把英文字幕用 Gemini AI 翻成中文，双语显示
-// API Key 从模块参数 API_KEY 读取；没填 key 或翻译失败时原样放行，不影响字幕
+// 拦截油管字幕请求，把各语种字幕用 Gemini AI 翻成中文，只显示中文
+// API Key 优先从模块环境变量 ctx.env.API_KEY 读取（Egern 模块页里填的），
+// 再依次从模块参数 $argument 和 $persistentStore 兜底；
+// 没填 key 或翻译失败时原样放行，不影响字幕
 
 var API_KEY = (function () {
   try {
+    if (typeof ctx !== "undefined" && ctx && ctx.env && ctx.env.API_KEY) {
+      return String(ctx.env.API_KEY).trim();
+    }
+  } catch (e) {}
+  try {
     var arg = (typeof $argument !== "undefined" && $argument) ? $argument : "";
     var m = arg.match(/API_KEY=([^&]+)/);
-    return m ? decodeURIComponent(m[1]) : "";
-  } catch (e) { return ""; }
+    if (m) return decodeURIComponent(m[1]).trim();
+  } catch (e) {}
+  try {
+    var stored = $persistentStore.read("yt-gemini-subs:API_KEY");
+    if (stored) return String(stored).trim();
+  } catch (e) {}
+  return "";
 })();
 
 // 按顺序试：lite 最稳、免费额度最宽；3.8-flash 最强，忙时自动降级
@@ -63,7 +75,7 @@ function main() {
 
     function tryModel(chunk, mi) {
       if (mi >= MODELS.length) { $done({}); return; }
-      var prompt = "Translate each English YouTube subtitle line into Simplified Chinese, keeping spoken tone natural. Return ONLY a JSON array of strings, same order and count, no explanations.\n" + JSON.stringify(chunk);
+      var prompt = "Translate each YouTube subtitle line into Simplified Chinese, no matter the source language (English, Korean, Japanese, etc.). Keep the spoken tone natural. Return ONLY a JSON array of strings, same order and count, no explanations.\n" + JSON.stringify(chunk);
       var reqBody = JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { temperature: 0.2, responseMimeType: "application/json" }
