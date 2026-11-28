@@ -1,5 +1,5 @@
 #!name=YouTube Gemini 中文字幕
-#!desc=油管各语种字幕用 Gemini AI 翻成中文，只显示中文，比免费谷歌翻译准。Key 已内置，装好直接用
+#!desc=油管各语种字幕用 Gemini AI 翻成中文，只显示中文，比免费谷歌翻译准。Key 填在模块「环境变量」里，键名 API_KEY
 #!author=奶蛙
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
 
